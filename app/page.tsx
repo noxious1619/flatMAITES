@@ -1,65 +1,34 @@
-import Image from "next/image";
+import Navbar from "./components/Navbar";
+import PoliceTape from "./components/PoliceTape";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-brand-bg text-black overflow-x-hidden relative">
+      <Navbar />
+      
+      {/* HERO SECTION */}
+      <div className="relative pt-20 pb-32 text-center px-4">
+        
+        <PoliceTape />
+
+        <div className="relative z-10 mt-40 max-w-4xl mx-auto">
+          <h1 className="font-heavy text-7xl md:text-9xl leading-none tracking-tighter mb-6 drop-shadow-sm">
+            FLAT
+            <span className="text-brand-orange">MAITES</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          
+          <p className="font-mono text-lg md:text-xl font-bold max-w-2xl mx-auto mb-10 leading-relaxed bg-white border-2 border-black p-4 inline-block -rotate-1 shadow-retro">
+            The private club for <span className="bg-brand-yellow px-1">Code 148/964</span> students.<br />
+            Find a room without the drama.
           </p>
+          
+          <br />
+
+          <button className="font-heavy text-2xl px-10 py-5 bg-black text-white border-2 border-black hover:bg-white hover:text-black transition-all shadow-retro hover:shadow-retro-hover active:translate-x-[2px] active:translate-y-[2px] active:shadow-retro-active">
+            GET VERIFIED &rarr;
+          </button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
