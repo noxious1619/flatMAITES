@@ -5,6 +5,8 @@ import { ArrowLeft, Zap, Mail, Lock } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -28,7 +30,7 @@ function LoginForm() {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        router.push("/");
+        router.push("/feed");
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
@@ -83,6 +85,16 @@ function LoginForm() {
 }
 
 export default function LoginPage() {
+    const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/feed");
+    }
+  }, [status, router]);
+
+  if (status === "loading") return null;
   return (
     <main className="min-h-screen bg-brand-bg flex flex-col items-center justify-center p-4 relative overflow-hidden">
 
@@ -118,6 +130,16 @@ export default function LoginPage() {
         {/* LOGIN FORM */}
         <LoginForm />
 
+        {/* Sign Up LINK */}
+        <div className="mt-6 text-center">
+          <p className="font-mono text-xs text-gray-500">
+            Not have an account?{' '}
+            <Link href="/signup" className="font-bold underline text-black hover:text-[#FF914D]">
+              Sign Up here
+            </Link>
+          </p>
+        </div>
+
         <div className="relative flex py-5 items-center">
           <div className="grow border-t border-gray-300"></div>
           <span className="shrink mx-4 text-gray-400 font-mono text-xs">OR</span>
@@ -126,7 +148,7 @@ export default function LoginPage() {
 
         {/* GOOGLE BUTTON */}
         <button
-          onClick={() => signIn("google", { callbackUrl: "/" })}
+          onClick={() => signIn("google", { callbackUrl: "/feed" })}
           className="w-full flex items-center justify-center gap-3 bg-white border-2 border-black py-3 px-4 font-mono font-bold text-sm hover:bg-gray-50 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-retro hover:-translate-y-1 active:translate-y-0 active:shadow-none mb-3"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">

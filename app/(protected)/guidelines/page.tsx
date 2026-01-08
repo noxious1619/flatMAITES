@@ -45,7 +45,7 @@ export default function GuidelinesPage() {
             </div>
 
             <p className="text-center text-xs text-gray-400 mt-8">
-              Breaking these rules will result in your Enrollment ID being blacklisted from flatMATE forever.
+              Breaking these rules will result in your ID being blacklisted from flatMATE forever.
             </p>
 
             <Link href="/feed">

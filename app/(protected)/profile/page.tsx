@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
-import { LogOut, Trash2, Edit2 } from "lucide-react";
+import {Trash2, Edit2 } from "lucide-react";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 
 type Listing = {
   id: string;
@@ -139,11 +138,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <button
-            onClick={() => signOut({ callbackUrl: '/login' })}
-            className="flex items-center gap-2 font-mono font-bold text-red-600 hover:bg-red-50 px-4 py-2 border-2 border-transparent hover:border-red-200 transition-all">
-            <LogOut size={18} /> LOGOUT
-          </button>
         </section>
 
         {/* 2. MY LISTINGS SECTION */}

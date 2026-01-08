@@ -5,13 +5,13 @@ export default function PoliceTape() {
         {/* We duplicate text to make the loop seamless */}
         <div className="animate-marquee whitespace-nowrap flex gap-8">
           <span className="font-heavy text-xl uppercase tracking-widest">
-            ⚡ Verified Students Only ⚡ No Brokers Allowed ⚡ MAIT Exclusive ⚡
+            ⚡ Verified Students Only ⚡ No Brokers Allowed ⚡ PG & Flats⚡
           </span>
           <span className="font-heavy text-xl uppercase tracking-widest">
-            ⚡ Verified Students Only ⚡ No Brokers Allowed ⚡ MAIT Exclusive ⚡
+            ⚡ Verified Students Only ⚡ No Brokers Allowed ⚡ PG & Flats⚡
           </span>
           <span className="font-heavy text-xl uppercase tracking-widest">
-             Verified Students Only ⚡ No Brokers Allowed ⚡ MAIT Exclusive ⚡
+             ⚡ Verified Students Only ⚡ No Brokers Allowed ⚡ PG & Flats⚡
           </span>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Space_Mono } from "next/font/google";
 import "./globals.css";
+import Providers from "./provider";
 
 // 1. Configure the Retro Fonts
 const archivo = Archivo_Black({ 
@@ -16,8 +17,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "flatMATEES",
-  description: "Exclusive Student Housing for MAIT",
+  title: "flatMATE",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${archivo.variable} ${spaceMono.variable} bg-[#E6ECEE] text-black antialiased`}>
-        {children}
+         <Providers>{children}</Providers>
       </body>
     </html>
   );

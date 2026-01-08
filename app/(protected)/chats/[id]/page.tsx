@@ -8,8 +8,7 @@ import { ArrowLeft, Send, ShieldAlert, MoreVertical, Phone } from "lucide-react"
 const INITIAL_MESSAGES = [
   { id: 1, text: "Hi, I saw your listing for the shared room.", sender: "me", time: "2:30 PM" },
   { id: 2, text: "Hey! Yes, it's available. Are you a student?", sender: "them", time: "2:31 PM" },
-  { id: 3, text: "Yeah, 3rd year CSE. Enrollment ends in 148.", sender: "me", time: "2:32 PM" },
-  { id: 4, text: "Perfect. We are looking for someone from CSE/IT only. When can you visit?", sender: "them", time: "2:35 PM" },
+  { id: 3, text: "Perfect. We are looking for someone from CSE/IT only. When can you visit?", sender: "them", time: "2:35 PM" },
 ];
 
 export default function ChatRoom() {

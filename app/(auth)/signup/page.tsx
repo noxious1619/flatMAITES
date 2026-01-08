@@ -145,9 +145,9 @@ export default function RegisterPage() {
         });
 
         if (result?.error) {
-          router.push("/auth/signin");
+          router.push("/login");
         } else {
-          router.push("/");
+          router.push("/feed");
         }
       }
     } catch (err: any) {
@@ -240,7 +240,7 @@ export default function RegisterPage() {
                 setIsDropdownOpen(true);
               }}
               onFocus={() => setIsDropdownOpen(true)}
-              placeholder="Search Your College (e.g. MAIT)"
+              placeholder="Search Your College"
               className="w-full bg-white border-2 border-black py-2.5 pl-10 pr-10 font-mono text-sm focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all placeholder:text-gray-400"
             />
 
@@ -327,7 +327,7 @@ export default function RegisterPage() {
 
           {/* GOOGLE BUTTON */}
           <button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: "/feed" })}
             className="w-full flex items-center justify-center gap-3 bg-white border-2 border-black py-3 px-4 font-mono font-bold text-sm hover:bg-gray-50 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-retro hover:-translate-y-1 active:translate-y-0 active:shadow-none"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -357,7 +357,7 @@ export default function RegisterPage() {
         <div className="mt-6 text-center">
           <p className="font-mono text-xs text-gray-500">
             Already have an account?{' '}
-            <Link href="/auth/signin" className="font-bold underline text-black hover:text-[#FF914D]">
+            <Link href="/login" className="font-bold underline text-black hover:text-[#FF914D]">
               Sign In here
             </Link>
           </p>
