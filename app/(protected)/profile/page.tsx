@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
-import {Trash2, Edit2 } from "lucide-react";
+import { Trash2, Edit2 } from "lucide-react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+
 
 type Listing = {
   id: string;
@@ -36,22 +38,29 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Fetch User Profile
+        // Fetch User Profile
         const userRes = await fetch("/api/user/me");
-        if (userRes.ok) {
-          const userData = await userRes.json();
+        const userData = await userRes.json();
+
+        if (!userRes.ok) {
+          toast.error(userData.error || "Failed to fetch user profile");
+        } else {
           setUser(userData);
         }
 
-        // 2. Fetch Listings
+        // Fetch Listings
         const listingsRes = await fetch("/api/listings/my");
-        if (listingsRes.ok) {
-          const listingsData = await listingsRes.json();
+        const listingsData = await listingsRes.json();
+
+        if (!listingsRes.ok) {
+          toast.error(listingsData.error || "Failed to fetch listings");
+        } else {
           setListings(listingsData);
         }
 
       } catch (err) {
         console.error("Failed to fetch profile data", err);
+        toast.error("Network error while fetching profile data");
       } finally {
         setLoading(false);
       }
@@ -66,30 +75,26 @@ export default function ProfilePage() {
     if (!confirmDelete) return;
 
     try {
-      await fetch(`/api/listings/${id}`, {
+      const res = await fetch(`/api/listings/${id}`, {
         method: "DELETE",
       });
+      const data = await res.json();
 
-      // Remove from UI instantly (or move to filled?)
-      // backend DELETE typically deletes row. If we want "filled", we should PATCH 'isAvailable'.
-      // For now, assuming DELETE means delete or mark inactive based on API implementation.
-      // If API actually deletes, we remove. If it marks filled, we should update state.
-      // Let's assume we remove from list or re-fetch.
+      if (!res.ok) {
+        toast.error(data.error || "Failed to delete listing");
+        return;
+      }
 
-      // Checking existing code: "Remove from UI instantly ... setListings...filter"
-      // But audit showed "FILLED / INACTIVE LISTINGS" section.
-      // So "Delete" button logic in previous code was: confirm("Mark this listing as filled?")
-      // But it called DELETE /api/listings/id.
-      // If DELETE endpoint actually Deletes, then they are gone.
-      // If we want "Filled", we likely need a different action.
-      // For now, I will keep the DELETE behavior but maybe the user meant "Archive".
-      // I'll stick to removing it from the view for now to be safe.
-
+      // Success
       setListings((prev) => prev.filter((l) => l.id !== id));
+      toast.success(data.message || "Listing marked as filled");
+
     } catch (err) {
       console.error("Failed to delete listing", err);
+      toast.error("Network error while deleting listing");
     }
   };
+
 
   if (loading) {
     return (

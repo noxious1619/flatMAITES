@@ -10,10 +10,13 @@ export const dynamic = "force-dynamic";
 export default async function FeedPage() {
   // 2. FETCH DATA FROM DB
   const rawListings = await prisma.listing.findMany({
-    orderBy: {
-      createdAt: 'desc', // Newest first
-    },
-  });
+  where: {
+    isAvailable: true, 
+  },
+  orderBy: {
+    createdAt: "desc",
+  },
+});
 
   return (
     <main className="min-h-screen bg-brand-bg pb-20">

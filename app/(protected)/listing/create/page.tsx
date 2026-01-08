@@ -4,6 +4,8 @@ import Navbar from "@/app/components/Navbar";
 import { Camera, IndianRupee, MapPin, Check, Type } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 
 export default function CreateListing() {
   const router = useRouter();
@@ -41,67 +43,86 @@ export default function CreateListing() {
 
   // 4. IMAGE UPLOAD TO CLOUDINARY
   const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "listing_images"); // replace with your preset
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "listing_images");
 
-    const res = await fetch("https://api.cloudinary.com/v1_1/dwg5nsiio/image/upload", {
-      method: "POST",
-      body: formData,
-    });
+  try {
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dwg5nsiio/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error?.message || "Image upload failed");
+    }
+
     return data.secure_url;
-  };
+  } catch (err) {
+    console.error("Image upload error:", err);
+    toast.error("Failed to upload image");
+    throw err; // IMPORTANT: stop form submission
+  }
+};
+
 
   // 3. SUBMIT TO API
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    try {
-      // Image Upload
-      const imageUrls = await Promise.all(images.map(file => handleImageUpload(file)));
-      // Prepare data for API (Mapping tags manually)
-      const payload = {
-        title: formData.title,
-        description: `${formData.description}\n\n📍 Location: ${formData.location}\n👤 Preference: ${formData.gender}`,
-        price: Number(formData.rent),
-        deposit: Number(formData.deposit) || 0,
-        images: imageUrls, // We'll handle image upload later
+  try {
+    // Upload images
+    const imageUrls = await Promise.all(
+      images.map((file) => handleImageUpload(file))
+    );
 
-        // Map frontend tags to backend boolean columns
-        tag_ac: selectedTags.includes("AC"),
-        tag_cooler: selectedTags.includes("Cooler"),
-        tag_noBrokerage: selectedTags.includes("No Brokerage"),
-        tag_wifi: selectedTags.includes("Wifi"),
-        tag_cook: selectedTags.includes("Cook"),
-        tag_maid: selectedTags.includes("Maid"),
-        tag_geyser: selectedTags.includes("Geyser"),
-        tag_metroNear: selectedTags.includes("Metro Near"),
-        tag_noRestrictions: selectedTags.includes("No Restrictions"),
-      };
+    const payload = {
+      title: formData.title,
+      description: `${formData.description}\n\n📍 Location: ${formData.location}\n👤 Preference: ${formData.gender}`,
+      price: Number(formData.rent),
+      deposit: Number(formData.deposit) || 0,
+      images: imageUrls,
 
-      const res = await fetch("/api/listings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      tag_ac: selectedTags.includes("AC"),
+      tag_cooler: selectedTags.includes("Cooler"),
+      tag_noBrokerage: selectedTags.includes("No Brokerage"),
+      tag_wifi: selectedTags.includes("Wifi"),
+      tag_cook: selectedTags.includes("Cook"),
+      tag_maid: selectedTags.includes("Maid"),
+      tag_geyser: selectedTags.includes("Geyser"),
+      tag_metroNear: selectedTags.includes("Metro Near"),
+      tag_noRestrictions: selectedTags.includes("No Restrictions"),
+    };
 
-      if (res.ok) {
-        alert("✅ Listing Published!");
-        router.push("/feed"); // Redirect to feed
-      } else {
-        const error = await res.json();
-        alert("Error: " + error.error);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong.");
-    } finally {
-      setIsSubmitting(false);
+    const res = await fetch("/api/listings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.error || "Failed to create listing");
+      return;
     }
-  };
+
+    toast.success("🎉 Listing published successfully!");
+    router.push("/feed");
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong while creating listing");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <main className="min-h-screen bg-[#E6ECEE] pb-20">
