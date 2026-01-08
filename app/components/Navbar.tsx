@@ -9,7 +9,7 @@ export default function Navbar() {
         <div className="w-8 h-8 bg-brand-orange border-2 border-black flex items-center justify-center group-hover:rotate-12 transition-transform">
           <Zap size={18} fill="black" />
         </div>
-        flatMAITES
+        flatMATE
       </Link>
 
       {/* LOGIN BUTTON */}

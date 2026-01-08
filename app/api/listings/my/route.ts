@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { getTestUser } from "@/app/lib/mockAuth"; //later 
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function GET() {
   try {
-     const user = getTestUser();
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const listings = await prisma.listing.findMany({
       where: {
-        ownerId: user.id,
+        ownerId: session.user.id as string,
       },
       orderBy: {
         createdAt: "desc",

@@ -4,42 +4,67 @@
 ├── README.md
 ├── app
 │   ├── (auth)
+│   │   ├── forget-password
+│   │   │   └── page.tsx
 │   │   ├── login
 │   │   │   └── page.tsx
-│   │   └── signup
+│   │   ├── reset-password
+│   │   │   └── page.tsx
+│   │   ├── signup
+│   │   │   └── page.tsx
+│   │   └── verify-email
 │   │       └── page.tsx
 │   ├── (protected)
+│   │   ├── block
+│   │   │   └── page.tsx
 │   │   ├── chat
 │   │   │   └── [id]
+│   │   │       └── page.tsx
 │   │   ├── chats
 │   │   │   └── page.tsx
+│   │   ├── components
+│   │   │   └── ListingCard.tsx
 │   │   ├── feed
 │   │   │   └── page.tsx
 │   │   ├── guidelines
 │   │   │   └── page.tsx
 │   │   ├── listing
 │   │   │   ├── [id]
-│   │   │   └── create
+│   │   │   │   └── page.tsx
+│   │   │   ├── create
+│   │   │   │   └── page.tsx
+│   │   │   └── edit
+│   │   │       └── page.tsx
 │   │   ├── profile
 │   │   │   └── page.tsx
-│   │   └── saved
+│   │   └── saved-listings
+│   │       └── page.tsx
+│   ├── (public)
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   └── contact
 │   │       └── page.tsx
 │   ├── admin
 │   │   ├── dashboard
 │   │   │   └── page.tsx
-│   │   └── reports
+│   │   ├── reports
+│   │   │   └── page.tsx
+│   │   └── users
 │   │       └── page.tsx
 │   ├── api
 │   │   ├── auth
 │   │   │   └── [...nextauth]
+│   │   │       ├── options.ts
+│   │   │       └── route.ts
 │   │   ├── listings
 │   │   │   ├── [id]
+│   │   │   │   └── route.ts
 │   │   │   ├── my
+│   │   │   │   └── route.ts
 │   │   │   └── route.ts
 │   │   └── register
 │   │       └── route.ts
 │   ├── components
-│   │   ├── ListingCard.tsx
 │   │   ├── Navbar.tsx
 │   │   └── PoliceTape.tsx
 │   ├── favicon.ico
@@ -73,4 +98,4 @@
 └── types
     └── next-auth.d.ts
 
-33 directories, 41 files
+43 directories, 56 files

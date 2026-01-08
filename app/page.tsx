@@ -14,7 +14,7 @@ export default function Home() {
         <div className="relative z-10 mt-40 max-w-4xl mx-auto">
           <h1 className="font-heavy text-7xl md:text-9xl leading-none tracking-tighter mb-6 drop-shadow-sm">
             FLAT
-            <span className="text-brand-orange">MAITES</span>
+            <span className="text-brand-orange">MATE</span>
           </h1>
           
           <p className="font-mono text-lg md:text-xl font-bold max-w-2xl mx-auto mb-10 leading-relaxed bg-white border-2 border-black p-4 inline-block -rotate-1 shadow-retro">

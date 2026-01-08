@@ -16,7 +16,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "flatMAITES",
+  title: "flatMATEES",
   description: "Exclusive Student Housing for MAIT",
 };
 

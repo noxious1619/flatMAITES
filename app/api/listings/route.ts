@@ -18,9 +18,9 @@ export async function GET() {
         owner: { // Join with User table to get owner details
           select: {
             name: true,
-            profileImage: true,
+            image: true,
             college: true,
-            isVerified: true,
+            emailVerified: true,
           }
         }
       }
