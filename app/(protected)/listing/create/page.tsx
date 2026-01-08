@@ -17,7 +17,7 @@ export default function CreateListing() {
     rent: "",
     deposit: "",
     location: "",
-    gender: "ANYONE",
+    category: "ANYONE",
     description: ""
   });
 
@@ -84,11 +84,11 @@ export default function CreateListing() {
 
     const payload = {
       title: formData.title,
-      description: `${formData.description}\n\n📍 Location: ${formData.location}\n👤 Preference: ${formData.gender}`,
+      category: formData.category,
+      description: `${formData.description}\n\n📍 Location: ${formData.location}\n👤 Preference: ${formData.category}`,
       price: Number(formData.rent),
       deposit: Number(formData.deposit) || 0,
       images: imageUrls,
-
       tag_ac: selectedTags.includes("AC"),
       tag_cooler: selectedTags.includes("Cooler"),
       tag_noBrokerage: selectedTags.includes("No Brokerage"),
@@ -227,9 +227,9 @@ export default function CreateListing() {
                     <label key={g} className="cursor-pointer">
                       <input
                         type="radio"
-                        name="gender"
+                        name="category"
                         value={g}
-                        checked={formData.gender === g}
+                        checked={formData.category === g}
                         onChange={handleChange}
                         className="peer sr-only"
                       />

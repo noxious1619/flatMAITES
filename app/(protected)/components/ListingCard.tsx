@@ -6,12 +6,12 @@ interface ListingProps {
   id: string;
   rent: string;
   location: string;
-  gender: "Male" | "Female" | "Any";
+  category: "BOYS" | "GIRLS" | "Any";
   tags: string[];
   imageUrl: string;
 }
 
-export default function ListingCard({ rent, location, gender, tags, imageUrl, id }: ListingProps) {
+export default function ListingCard({ rent, location, category, tags, imageUrl, id }: ListingProps) {
   return (
     <Link href={`/listing/${id}`}>  {/* Wrap everything in Link */}
     <div className="retro-card group cursor-pointer relative flex flex-col h-full">
@@ -27,9 +27,9 @@ export default function ListingCard({ rent, location, gender, tags, imageUrl, id
         
         {/* GENDER BADGE */}
         <div className={`absolute top-2 left-2 px-2 py-1 border-2 border-black font-mono text-xs font-bold
-            ${gender === 'Male' ? 'bg-blue-200' : gender === 'Female' ? 'bg-pink-200' : 'bg-gray-100'}
+            ${category === 'BOYS' ? 'bg-blue-200' : category === 'GIRLS' ? 'bg-pink-200' : 'bg-gray-100'}
         `}>
-            {gender === 'Male' ? 'BOYS' : gender === 'Female' ? 'GIRLS' : 'ANY'}
+            {category === 'BOYS' ? 'BOYS' : category === 'GIRLS' ? 'GIRLS' : 'ANY'}
         </div>
       </div>
 

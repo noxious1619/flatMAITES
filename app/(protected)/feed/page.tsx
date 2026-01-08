@@ -2,111 +2,110 @@ import ListingCard from "../components/ListingCard";
 import Navbar from "../../components/Navbar";
 import { Filter, Plus } from "lucide-react";
 import Link from "next/link";
-import prisma  from "@/app/lib/prisma"; // Ensure this path matches your project structure
+import prisma from "@/app/lib/prisma";
+import DropdownFilters from "@/app/components/DropdownFilters";
+import { Category } from "@prisma/client";
 
-// 1. FORCE DYNAMIC: Ensures the page rebuilds on every refresh to show new listings
 export const dynamic = "force-dynamic";
 
-export default async function FeedPage() {
-  // 2. FETCH DATA FROM DB
+// 1. Define the type to expect a Promise
+type FeedPageProps = {
+  searchParams: Promise<{
+    category?: string;
+    ac?: string;
+    cooler?: string;
+    noBroker?: string;
+    wifi?: string;
+    cook?: string;
+    maid?: string;
+    geyser?: string;
+    metroNear?: string;
+    noRules?: string;
+  }>;
+};
+
+export default async function FeedPage(props: FeedPageProps) {
+  // 2. Await the searchParams immediately
+  const searchParams = await props.searchParams;
+
+  // ---------- Prisma Filters ----------
+  const filters: any = { isAvailable: true };
+  if (searchParams.category) filters.category = searchParams.category as Category;
+  if (searchParams.ac === "true") filters.tag_ac = true;
+  if (searchParams.cooler === "true") filters.tag_cooler = true;
+  if (searchParams.noBroker === "true") filters.tag_noBrokerage = true;
+  if (searchParams.wifi === "true") filters.tag_wifi = true;
+  if (searchParams.cook === "true") filters.tag_cook = true;
+  if (searchParams.maid === "true") filters.tag_maid = true;
+  if (searchParams.geyser === "true") filters.tag_geyser = true;
+  if (searchParams.metroNear === "true") filters.tag_metroNear = true;
+  if (searchParams.noRules === "true") filters.tag_noRestrictions = true;
+
   const rawListings = await prisma.listing.findMany({
-  where: {
-    isAvailable: true, 
-  },
-  orderBy: {
-    createdAt: "desc",
-  },
-});
+    where: filters,
+    orderBy: { createdAt: "desc" },
+  });
+
+  const buttonClass = (active: boolean) =>
+    active
+      ? "bg-black text-white border-2 border-black px-4 py-2 font-mono text-sm font-bold whitespace-nowrap"
+      : "bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold hover:bg-black hover:text-white transition-colors whitespace-nowrap";
+
+  // 3. Instead of passing a function to DropdownFilters, 
+  // we just pass the current searchParams as an object.
+  // The logic to build the URL should happen INSIDE DropdownFilters.
 
   return (
     <main className="min-h-screen bg-brand-bg pb-20">
       <Navbar />
 
-      {/* 3. FILTER BAR (Sticky Header) */}
       <div className="sticky top-0 z-40 bg-brand-bg/95 backdrop-blur-sm border-b-2 border-black p-4">
-        <div className="max-w-6xl mx-auto flex gap-4 overflow-x-auto no-scrollbar">
-          {/* Filter Button */}
-          <button className="flex items-center gap-2 bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-none whitespace-nowrap">
+        <div className="max-w-6xl mx-auto flex gap-4 overflow-visible no-scrollbar">
+          <button className="flex items-center gap-2 bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] whitespace-nowrap">
             <Filter size={16} /> FILTERS
           </button>
-          
-          {/* Quick Filters */}
-          <button className="bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold hover:bg-black hover:text-white transition-colors whitespace-nowrap">
-            Boys
-          </button>
-          <button className="bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold hover:bg-black hover:text-white transition-colors whitespace-nowrap">
-            Girls
-          </button>
-          <button className="bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold hover:bg-black hover:text-white transition-colors whitespace-nowrap">
-            AC Only
-          </button>
+
+          {/* Use manual logic for the Boys/Girls links in this server component */}
+          <Link href={`/feed?${new URLSearchParams({ ...searchParams, category: 'BOYS' }).toString()}`}>
+            <button className={buttonClass(searchParams.category === "BOYS")}>Boys</button>
+          </Link>
+
+          <Link href={`/feed?${new URLSearchParams({ ...searchParams, category: 'GIRLS' }).toString()}`}>
+            <button className={buttonClass(searchParams.category === "GIRLS")}>Girls</button>
+          </Link>
+
+          <DropdownFilters
+            currentParams={searchParams}
+          />
+
+          <Link href="/feed">
+            <button className="bg-white border-2 border-black px-4 py-2 font-mono text-sm font-bold hover:bg-black hover:text-white transition-colors">
+              Clear
+            </button>
+
+          </Link>
         </div>
       </div>
 
-      {/* 4. THE GRID */}
       <div className="max-w-6xl mx-auto p-4 md:p-6">
         {rawListings.length === 0 ? (
-          // Empty State
-          <div className="flex flex-col items-center justify-center py-20 opacity-50 font-mono gap-4">
-            <p className="text-xl">No listings found yet...</p>
-            <Link href="/create" className="text-brand-orange underline">
-              Be the first to post!
-            </Link>
-          </div>
+          <div className="text-center py-20 font-mono opacity-50">No listings found...</div>
         ) : (
-          // Grid State
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {rawListings.map((listing) => {
-              
-              // --- DATA TRANSFORMATION ---
-              // 1. Convert Boolean DB fields to UI Tags Array
-              const tags: string[] = [];
-              if (listing.tag_ac) tags.push("AC");
-              if (listing.tag_cooler) tags.push("Cooler");
-              if (listing.tag_wifi) tags.push("Wifi");
-              if (listing.tag_noBrokerage) tags.push("No Broker");
-              if (listing.tag_cook) tags.push("Cook");
-              if (listing.tag_maid) tags.push("Maid");
-              if (listing.tag_geyser) tags.push("Geyser");
-              if (listing.tag_metroNear) tags.push("Near Metro");
-              if (listing.tag_noRestrictions) tags.push("No Rules");
-
-              // 2. Handle missing Image
-              // Uses the first uploaded image, or a fallback placeholder
-              const displayImage = listing.images.length > 0 
-                ? listing.images[0] 
-                : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=500&q=60";
-
-              return (
-                <ListingCard 
-                  key={listing.id} 
-                  id={listing.id}
-                  
-                  // Convert DB Int (e.g. 6500) to String "6,500"
-                  rent={listing.price.toLocaleString("en-IN")} 
-                  
-                  // DB Schema uses 'title', UI uses 'location'. Mapping title -> location for now.
-                  location={listing.title} 
-                  
-                  // DB Schema doesn't have 'gender' yet. Defaulting to 'Any'.
-                  gender="Any" 
-                  
-                  tags={tags}
-                  imageUrl={displayImage}
-                />
-              );
-            })}
+            {rawListings.map((listing) => (
+              <ListingCard
+                key={listing.id}
+                id={listing.id}
+                rent={listing.price.toLocaleString("en-IN")}
+                location={listing.title}
+                category={listing.category}
+                tags={[]}
+                imageUrl={listing.images[0] || "fallback_url"}
+              />
+            ))}
           </div>
         )}
       </div>
-
-      {/* 5. FLOATING ACTION BUTTON (Post Room) */}
-      <Link href="/create" className="fixed bottom-8 right-8 z-50">
-        <button className="bg-brand-orange text-white border-2 border-black w-16 h-16 rounded-full flex items-center justify-center shadow-retro hover:shadow-retro-hover active:shadow-retro-active hover:-translate-y-1 transition-all group">
-            <Plus size={32} strokeWidth={3} className="group-hover:rotate-90 transition-transform duration-300" />
-        </button>
-      </Link>
-
     </main>
   );
 }

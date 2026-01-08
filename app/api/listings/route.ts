@@ -75,6 +75,7 @@ export async function POST(req: Request) {
       description,
       price,
       images,
+      category,
       address, // Ensure address is captured
       // Tags
       tag_ac, tag_cooler, tag_noBrokerage, tag_wifi, tag_cook,
@@ -106,7 +107,9 @@ export async function POST(req: Request) {
         price: Number(price), // Ensure it's a number
         images: images || [], // Default to empty array if no images
         ownerId: session.user.id,
+        category,
         address: address || "",
+        isAvailable: true,
 
         // Map the boolean tags directly
         tag_ac: !!tag_ac,
