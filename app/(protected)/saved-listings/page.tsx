@@ -1,5 +1,5 @@
 import Navbar from "@/app/components/Navbar";
-import ListingCard from "@/app/components/ListingCard";
+import ListingCard from "@/app/(protected)/components/ListingCard";
 import { BookmarkX } from "lucide-react";
 
 // MOCK DATA (In real app, fetch from user.savedIds)

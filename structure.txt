@@ -1,6 +1,5 @@
 .
 ├── .env
-├── .git
 ├── .gitignore
 ├── README.md
 ├── app
@@ -8,6 +7,27 @@
 │   │   ├── login
 │   │   │   └── page.tsx
 │   │   └── signup
+│   │       └── page.tsx
+│   ├── (protected)
+│   │   ├── chat
+│   │   │   └── [id]
+│   │   ├── chats
+│   │   │   └── page.tsx
+│   │   ├── feed
+│   │   │   └── page.tsx
+│   │   ├── guidelines
+│   │   │   └── page.tsx
+│   │   ├── listing
+│   │   │   ├── [id]
+│   │   │   └── create
+│   │   ├── profile
+│   │   │   └── page.tsx
+│   │   └── saved
+│   │       └── page.tsx
+│   ├── admin
+│   │   ├── dashboard
+│   │   │   └── page.tsx
+│   │   └── reports
 │   │       └── page.tsx
 │   ├── api
 │   │   ├── auth
@@ -18,38 +38,18 @@
 │   │   │   └── route.ts
 │   │   └── register
 │   │       └── route.ts
-│   ├── chat
-│   │   └── [id]
-│   │       └── page.tsx
-│   ├── chats
-│   │   └── page.tsx
 │   ├── components
 │   │   ├── ListingCard.tsx
 │   │   ├── Navbar.tsx
 │   │   └── PoliceTape.tsx
-│   ├── create
-│   │   └── page.tsx
 │   ├── favicon.ico
-│   ├── feed
-│   │   └── page.tsx
 │   ├── globals.css
-│   ├── guidelines
-│   │   └── page.tsx
 │   ├── layout.tsx
 │   ├── lib
 │   │   ├── mockAuth.ts
 │   │   └── prisma.ts
-│   ├── listing
-│   │   └── [id]
-│   │       └── page.tsx
 │   ├── middleware.ts
-│   ├── page.tsx
-│   ├── profile
-│   │   └── page.tsx
-│   ├── saved
-│   │   └── page.tsx
-│   └── verify
-│       └── page.tsx
+│   └── page.tsx
 ├── eslint.config.mjs
 ├── next-env.d.ts
 ├── next.config.ts
@@ -57,6 +57,7 @@
 ├── package.json
 ├── postcss.config.mjs
 ├── prisma
+│   ├── migrations
 │   └── schema
 │       ├── listing.prisma
 │       ├── schema.prisma
@@ -71,3 +72,5 @@
 ├── tsconfig.json
 └── types
     └── next-auth.d.ts
+
+33 directories, 41 files

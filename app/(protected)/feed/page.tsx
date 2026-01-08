@@ -1,5 +1,5 @@
 import ListingCard from "../components/ListingCard";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { Filter, Plus } from "lucide-react";
 import Link from "next/link";
 import prisma  from "@/app/lib/prisma"; // Ensure this path matches your project structure
