@@ -1,5 +1,5 @@
 model Listing {
-  id                 String         @id @default(uuid())
+  id                 String         @id @default(cuid())
   title              String
   description        String
   price              Int
@@ -27,7 +27,7 @@ model Listing {
 }
 
 model SavedListing {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   savedAt   DateTime @default(now())
   userId    String
   listingId String
