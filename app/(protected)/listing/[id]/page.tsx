@@ -7,6 +7,7 @@ import { getTestUser } from "@/app/lib/mockAuth";
 import ListingInteraction from "@/app/(protected)/components/ListingInteraction";
 import ShareListing from "@/app/(protected)/components/ShareListing";
 import LocationMap from "@/app/(protected)/components/DynamicLocationMap";
+import ListingImageViewer from "@/app/(protected)/components/ListingImageViewer";
 
 
 // Helper to format currency
@@ -25,18 +26,12 @@ export default async function ListingDetails(props: Props) {
     // 2. AWAIT PARAMS HERE
     const params = await props.params;
     const { id } = params;
-
-
     // 3. Get Current User
     const user = getTestUser();
     const currentUserId = user ? user.id : "";
-
-
     if (!id) {
         notFound();
     }
-
-
     // 4. Fetch Listing & Owner
     const listing = await prisma.listing.findUnique({
         where: { id },
@@ -86,7 +81,7 @@ export default async function ListingDetails(props: Props) {
             if (connection.status === "ACCEPTED") {
                 contactDetails = {
                     phone: listing.owner.phoneNumber,
-                    email: listing.owner.email
+                    email: listing.owner.email 
                 };
             }
         }
@@ -132,13 +127,9 @@ export default async function ListingDetails(props: Props) {
 
 
                         {/* HERO IMAGE */}
-                        <div className="bg-white p-2 rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black">
-                            <img
-                                src={listing.images[0] || "/placeholder.png"}
-                                alt="Room Main"
-                                className="w-full h-64 md:h-96 object-cover border-2 border-black"
-                            />
-                        </div>
+                                <div>
+                                    <ListingImageViewer images={listing.images || []} />
+                                </div>
 
 
                         {/* TITLE & PRICE */}

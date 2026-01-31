@@ -1,5 +1,9 @@
+"use client";
+
+
 import { MapPin, IndianRupee } from "lucide-react";
 import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
 
 // Define what a listing looks like
 interface ListingProps {
@@ -9,22 +13,64 @@ interface ListingProps {
   location: string;
   category: "BOYS" | "GIRLS" | "Any";
   tags: string[];
-  imageUrl: string;
+  imageUrl: string[];
 }
 
+
+
 export default function ListingCard({ rent, location, category, tags, imageUrl, id, title }: ListingProps) {
+    
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const startAutoScroll = () => {
+            if (imageUrl.length <= 1) return;
+
+            intervalRef.current = setInterval(() => {
+                setActiveImage((prev) => (prev + 1) % imageUrl.length);
+            }, 1000);
+        };
+    
+    const stopAutoScroll = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+        setActiveImage(0); // reset to first image
+        };
+
+
+    const [activeImage, setActiveImage] = useState(0);
   return (
+    
     <Link href={`/listing/${id}`}>  {/* Wrap everything in Link */}
     <div className="retro-card group cursor-pointer relative flex flex-col h-full">
       
       {/* 1. IMAGE AREA */}
-      <div className="h-48 bg-gray-200 border-b-2 border-black relative overflow-hidden">
+      <div className="h-48 bg-gray-200 border-b-2 border-black relative overflow-hidden" 
+        onMouseEnter={startAutoScroll}
+        onMouseLeave={stopAutoScroll}
+      >
         {/* Placeholder for real image */}
-        <img 
-            src={imageUrl} 
-            alt="Room" 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        <div className="relative w-full h-full">
+        <img
+            src={imageUrl[activeImage]}
+            className="w-full h-full object-cover"
         />
+
+        {/* Dots */}
+        {imageUrl.length > 1 && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            {imageUrl.map((_, i) => (
+                <span
+                key={i}
+                className={`w-2 h-2 rounded-full border border-black
+                    ${i === activeImage ? "bg-black" : "bg-white"}
+                `}
+                />
+            ))}
+            </div>
+        )}
+        </div>
+
         
         {/* GENDER BADGE */}
         <div className={`absolute top-2 left-2 px-2 py-1 border-2 border-black font-mono text-xs font-bold
@@ -35,7 +81,7 @@ export default function ListingCard({ rent, location, category, tags, imageUrl, 
       </div>
 
       {/* 2. CONTENT AREA */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         
         {/* Header */}
         <div className="flex justify-between items-start mb-2">

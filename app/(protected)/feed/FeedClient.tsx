@@ -52,7 +52,7 @@ export default function FeedClient({ listings }: Props) {
                                     location={listing.location?.displayAddress || listing.address || "Unknown"}
                                     category={listing.category}
                                     tags={[]}
-                                    imageUrl={listing.images[0] || "fallback_url"}
+                                    imageUrl={listing.images || "fallback_url"}
                                 />
                             ))}
                         </div>
