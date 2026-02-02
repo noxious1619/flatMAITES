@@ -11,7 +11,7 @@ interface ListingProps {
   title: string;
   rent: string;
   location: string;
-  category: "BOYS" | "GIRLS" | "Any";
+  category: "MALE" | "FEMALE" | "Any";
   tags: string[];
   imageUrl: string[];
 }
@@ -74,9 +74,9 @@ export default function ListingCard({ rent, location, category, tags, imageUrl, 
         
         {/* GENDER BADGE */}
         <div className={`absolute top-2 left-2 px-2 py-1 border-2 border-black font-mono text-xs font-bold
-            ${category === 'BOYS' ? 'bg-blue-200' : category === 'GIRLS' ? 'bg-pink-200' : 'bg-gray-100'}
+            ${category === 'MALE' ? 'bg-blue-200' : category === 'FEMALE' ? 'bg-pink-200' : 'bg-gray-100'}
         `}>
-            {category === 'BOYS' ? 'BOYS' : category === 'GIRLS' ? 'GIRLS' : 'ANY'}
+            {category === 'MALE' ? 'BOYS' : category === 'FEMALE' ? 'GIRLS' : 'ANY'}
         </div>
       </div>
 
@@ -85,18 +85,19 @@ export default function ListingCard({ rent, location, category, tags, imageUrl, 
         
         {/* Header */}
         <div className="flex justify-between items-start mb-2">
-            <div>
+            <div className="flex flex-col">
                 <h3 className="font-heavy text-xl leading-none mb-1 flex items-center gap-1">
                     <IndianRupee size={18} strokeWidth={3} /> {rent}
                 </h3>
                 <p className="font-heavy fw-200 text-xs text-black-100 flex items-center gap-1 mt-1">
-                    {/* <MapPin size={12}/>  */}
                     {title}
                 </p>
-                <p className="font-mono text-xs text-gray-500 flex items-center gap-1 mt-1">
-                    <MapPin size={12}/> 
+                <div className="flex items-center gap-1 mt-1">
+                  <MapPin size={14} className="shrink-0" />
+                  <p className="font-mono text-xs text-gray-500 items-center gap-1 mt-1 line-clamp-3"> 
                     {location}
-                </p>
+                  </p>
+                </div>
             </div>
         </div>
 

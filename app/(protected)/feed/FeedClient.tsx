@@ -13,6 +13,7 @@ type Props = {
 
 export default function FeedClient({ listings }: Props) {
     const [viewMode, setViewMode] = useState<"LIST" | "MAP">("LIST");
+    console.log("Listings in FeedClient:", listings);
 
     return (
         <div className="relative">
@@ -50,7 +51,7 @@ export default function FeedClient({ listings }: Props) {
                                     id={listing.id}
                                     rent={listing.price.toLocaleString("en-IN")}
                                     location={listing.location?.displayAddress || listing.address || "Unknown"}
-                                    category={listing.category}
+                                    category={listing.genderPreference}
                                     tags={[]}
                                     imageUrl={listing.images || "fallback_url"}
                                 />

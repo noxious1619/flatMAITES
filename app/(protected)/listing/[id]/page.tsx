@@ -257,14 +257,14 @@ export default async function ListingDetails(props: Props) {
 
                         {/* COLLEGE */}
                             {listing.collegeDetails && (
-                                <div className="mb-6 flex items-center gap-3 bg-blue-50 border-2 border-blue-200 p-3 rounded-md">
-                                    <div className="bg-blue-100 p-2 rounded-full">
-                                        <MapPin className="text-blue-600" size={24} />
+                                <div className="bg-white border-2 border-black p-6 shadow-retro relative mt-8 flex alignItems-start gap-4">
+                                    <div className=" p-2 rounded-full">
+                                        <MapPin className="size={24}" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-bold text-blue-500 uppercase tracking-wider">Near College</p>
-                                        <p className="font-heavy text-lg leading-none">{listing.collegeDetails.name}</p>
-                                        <p className="text-xs font-mono text-gray-500">{listing.collegeDetails.city}</p>
+                                        <p className="text-xs font-mono font-bold uppercase tracking-wider">Near College</p>
+                                        <p className=" font-mono text-lg leading-none mt-2">{listing.collegeDetails.name}</p>
+                                        <p className="text-xs font-mono text-gray-500 mt-2">{listing.collegeDetails.city}</p>
                                     </div>
                                 </div>
                             )}
@@ -272,7 +272,7 @@ export default async function ListingDetails(props: Props) {
 
                             {/* MAP */}
                             {listing.location && (
-                                <div className="mb-8 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <div className="mb-8 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
                                     <LocationMap
                                         lat={listing.location.latitude}
                                         lng={listing.location.longitude}
